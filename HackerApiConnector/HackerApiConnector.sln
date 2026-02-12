@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastucture", "Infrastucture", "{E12AE7A4-B1F5-4D30-865B-EECF81AECFDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{4CD8B53B-21CD-4D2E-9B04-976059E681D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{824007EE-F42C-465D-ABAB-686F2F9E9181}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{4AEDEFBF-F2F3-4296-A36D-AD7E50055DAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RestService", "RestService", "{91843A89-4062-46E8-AFE3-8C7BB6F18EF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerApiConnector.API", "HackerApiConnector.API\HackerApiConnector.API.csproj", "{D34FF71E-ED7E-4D3A-B9D0-7027FC02E076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerApiConnector.Application", "HackerApiConnector.Application\HackerApiConnector.Application.csproj", "{8B5CABEE-8EA8-4F3A-B885-A4C29A6D7902}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerApiConnector.Domain", "HackerApiConnector.Domain\HackerApiConnector.Domain.csproj", "{98CB7EB7-19D2-4238-BC48-07FC92108C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerApiConnector.Infrastructure.RestService", "HackerApiConnector.Infrastructure.RestService\HackerApiConnector.Infrastructure.RestService.csproj", "{0A379092-8FAF-4692-BA8D-6F2609DCE2E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D34FF71E-ED7E-4D3A-B9D0-7027FC02E076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D34FF71E-ED7E-4D3A-B9D0-7027FC02E076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D34FF71E-ED7E-4D3A-B9D0-7027FC02E076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D34FF71E-ED7E-4D3A-B9D0-7027FC02E076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B5CABEE-8EA8-4F3A-B885-A4C29A6D7902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B5CABEE-8EA8-4F3A-B885-A4C29A6D7902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B5CABEE-8EA8-4F3A-B885-A4C29A6D7902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B5CABEE-8EA8-4F3A-B885-A4C29A6D7902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98CB7EB7-19D2-4238-BC48-07FC92108C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98CB7EB7-19D2-4238-BC48-07FC92108C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98CB7EB7-19D2-4238-BC48-07FC92108C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98CB7EB7-19D2-4238-BC48-07FC92108C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A379092-8FAF-4692-BA8D-6F2609DCE2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A379092-8FAF-4692-BA8D-6F2609DCE2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A379092-8FAF-4692-BA8D-6F2609DCE2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A379092-8FAF-4692-BA8D-6F2609DCE2E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{91843A89-4062-46E8-AFE3-8C7BB6F18EF6} = {E12AE7A4-B1F5-4D30-865B-EECF81AECFDB}
+		{D34FF71E-ED7E-4D3A-B9D0-7027FC02E076} = {4AEDEFBF-F2F3-4296-A36D-AD7E50055DAF}
+		{8B5CABEE-8EA8-4F3A-B885-A4C29A6D7902} = {824007EE-F42C-465D-ABAB-686F2F9E9181}
+		{98CB7EB7-19D2-4238-BC48-07FC92108C75} = {4CD8B53B-21CD-4D2E-9B04-976059E681D3}
+		{0A379092-8FAF-4692-BA8D-6F2609DCE2E6} = {91843A89-4062-46E8-AFE3-8C7BB6F18EF6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3101D040-5632-4043-941A-E6103A80833C}
+	EndGlobalSection
+EndGlobal
