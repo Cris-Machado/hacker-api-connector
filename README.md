@@ -1,43 +1,33 @@
-HackerApiConnector.API
+Hacker API Connector
+Hacker API Connector is a lightweight .NET 6 solution designed to fetch and cache Hacker News “best” stories. It provides application services to efficiently retrieve detailed story information.
+The solution follows a layered architecture, organized into:
+- HackerApiConnector.API
+- HackerApiConnector.Application
+- HackerApiConnector.Domain
+- HackerApiConnector.Infrastructure
 
-This project is a .NET 6 Web API built with Domain-Driven Design (DDD). It consumes Hacker News data and uses Redis (Memurai on Windows) for distributed caching.
+✨ Features
+- Fetches Hacker News best stories via a REST-based HTTP client.
+- Implements in-memory caching at both the index and per-story level using IMemoryCache.
+- Maps domain models to view models with AutoMapper.
+- Ensures clean separation of concerns through interfaces for HTTP clients and request services.
 
-Technologies
+🛠 Technologies
 - .NET 6
-- ASP.NET Core Web API
+- C# 10
 - AutoMapper
-- StackExchange.Redis
-- Memurai (Redis for Windows)
+- Microsoft.Extensions.Caching.Memory (IMemoryCache)
+- HttpClient (wrapped via IHackerApiHttpClient)
+- Dependency Injection using the built-in ASP.NET Core DI container
 
-Installation
-- Install .NET 6 SDK.
-- Install Memurai on Windows (Server to Redis):
-- Download from https://www.memurai.com/download
-- Install as a Windows service.
-- Restore packages
-- Run the API
+📂 Project Structure
+- HackerApiConnector.API – Web API project (hosting and configuration).
+- HackerApiConnector.Application – Application services, e.g., ConnectorService implementing IConnectorService.
+- HackerApiConnector.Domain – Domain models, view models, and contracts (interfaces).
+- HackerApiConnector.Infrastructure – REST client implementations and HTTP client wrappers.
 
-Testing the Cache
-- Call endpoint: GET /api/stories/{n}
-- First call: fetches Hacker News and stores in Redis.
-- Subsequent calls: returns cached data quickly.
-- Check Redis keys: redis-cli keys * Example: HackerApiCache_beststories_2
-- Wait for expiration (default 1 minute). Key disappears, next call fetches again.
-
-Example Usage
-GET https://localhost:5001/api/stories/5
-Response: [ { "id": 12345, "title": "Example story", "score": 150, "url": "https://news.ycombinator.com/item?id=12345" } ]
-
-======================================================================================
-
-Memurai Troubleshooting Guide
-Sometimes Memurai may block write commands with errors like:
-MISCONF Memurai is configured to save RDB snapshots, but it's currently unable to persist to disk.
-Commands that may modify the data set are disabled, because this instance is configured to report errors
-during writes if RDB snapshotting fails (stop-writes-on-bgsave-error option).
-
-Step-by-step fixes:
-- If you see MISCONF during execution: edit memurai.conf (C:\Program Files\Memurai\memurai.conf) and set stop-writes-on-bgsave-error no, then restart Memurai service (net stop memurai && net start memurai).
-- If CONFIG SET is not available ("admin mode required"): change the setting directly in memurai.conf instead of using CLI or code, then restart Memurai service.
-
-
+🚀 Getting Started
+Prerequisites
+- .NET 6 SDK
+- Visual Studio 2022 or dotnet CLI
+Clone the repository and follow the setup instructions to get started.
