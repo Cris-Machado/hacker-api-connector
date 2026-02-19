@@ -5,9 +5,7 @@ using HackerApiConnector.Domain.Interfaces.RestServices;
 using HackerApiConnector.Domain.Interfaces.Services;
 using HackerApiConnector.Infrastructure.RestService.HttpClient;
 using HackerApiConnector.Infrastructure.RestService.Services;
-using Microsoft.AspNetCore.Hosting.Server;
 using Refit;
-using StackExchange.Redis;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,13 +34,9 @@ builder.Services.AddRefitClient<IHackerApiHttpClient>()
         c.BaseAddress = new Uri(apiSettings.HackerApi);
     });
 
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "localhost:6379"; 
-    options.InstanceName = "HackerApiCache_";
-});
+builder.Services.AddMemoryCache();
 
-var app = builder.Build();
+var app = builder.Build();  
 app.UseMiddleware<Middleware>();
 
 

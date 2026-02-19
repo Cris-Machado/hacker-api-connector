@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using HackerApiConnector.Domain.Exceptions;
 using HackerApiConnector.Domain.Interfaces.RestServices;
 using HackerApiConnector.Domain.Interfaces.Services;
 using HackerApiConnector.Domain.Models.Models;
 using HackerApiConnector.Domain.Models.ViewModels;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using System.Text.Json;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HackerApiConnector.Application.Services
 {
@@ -13,49 +13,60 @@ namespace HackerApiConnector.Application.Services
     {
         private readonly IHackerApiRequestService _hackerApiRequestService;
         private readonly IMapper _mapper;
-        private readonly IDistributedCache _cache;
+        private readonly IMemoryCache _cache;
 
 
-        public ConnectorService(IHackerApiRequestService hackerApiRequestService, IMapper mapper, IDistributedCache cache)
+        public ConnectorService(IHackerApiRequestService hackerApiRequestService, IMapper mapper, IMemoryCache cache)
         {
             _hackerApiRequestService = hackerApiRequestService;
             _mapper = mapper;
             _cache = cache;
         }
 
+
+
         public async Task<List<BeststorieDetailedViewModel>> GetStoriesDetailed(int n)
         {
-            var result = new List<BeststorieByIdModel>();
 
-            string cacheKey = $"beststories_{n}";
-            var cached = await _cache.GetStringAsync(cacheKey);
+            var response = await GetBestStoriesCached();
+            if(n > response.Count())
+                n = response.Count();
 
-            if (!string.IsNullOrEmpty(cached))
-                result = JsonSerializer.Deserialize<List<BeststorieByIdModel>>(cached);
-            else
+            var filtredResponse = response.Take(n);
+            var tasks = filtredResponse.Select(item => GetBestStoryByIdCached(item));
+            var result = await Task.WhenAll(tasks);
+
+            var orderedResult = result.OrderByDescending(x => x.score).ToList();
+            return _mapper.Map<List<BeststorieDetailedViewModel>>(orderedResult);
+
+        }
+        public async Task<BeststorieByIdModel> GetBestStoryByIdCached(int id)
+        {
+            if (!_cache.TryGetValue($"Story_{id}", out BeststorieByIdModel story))
             {
-                var response = await _hackerApiRequestService.GetBestStories();
-                var filtredResponse = response.response.Take(n);
+                story = await _hackerApiRequestService.GetBestStoriesById(id);
 
-                foreach (var item in filtredResponse)
-                    result.Add(await _hackerApiRequestService.GetBestStoriesById(item));
-
-                result = result.OrderByDescending(x => x.score).ToList();
-                await SetRedis(result, cacheKey);
-
+                _cache.Set($"Story_{id}", story, TimeSpan.FromMinutes(300));
             }
 
-            return _mapper.Map<List<BeststorieDetailedViewModel>>(result);
+            return story;
         }
 
-        private async Task SetRedis(List<BeststorieByIdModel>? result, string cacheKey)
+
+        public async Task<List<int>> GetBestStoriesCached()
         {
-            var options = new DistributedCacheEntryOptions
+            if (!_cache.TryGetValue("BestStories", out List<int> stories))
             {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1)
-            };
+                var response = await _hackerApiRequestService.GetBestStories();
+                stories = response.response.ToList();
 
-            await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(result), options);
+                _cache.Set("BestStories", stories, TimeSpan.FromMinutes(300));
+            }
+
+            return stories;
         }
+
+
+
     }
 }
